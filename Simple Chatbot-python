@@ -1,0 +1,53 @@
+import random
+
+class Chatbot:
+    def __init__(self):
+        self.greetings = ["hello", "hi", "hey", "greetings", "what's up", "hola"]
+        self.farewells = ["bye", "goodbye", "see you", "take care", "farewell"]
+        self.responses = {
+            "how are you": ["I'm good, thanks for asking!", "I'm doing well, how about you?"],
+            "what's your name": ["I'm a chatbot created to help you!", "You can call me Chatbot."],
+            "tell me a joke": ["Why don't skeletons fight each other? They don't have the guts!", 
+                               "Why don't programmers like nature? It has too many bugs!"],
+            "what is your purpose": ["My purpose is to assist you with any questions you have!", 
+                                     "I am here to chat and help you out."],
+            "default": ["Sorry, I didn't understand that. Can you try asking something else?"]
+        }
+
+    def greet(self, user_input):
+        return random.choice(self.greetings) if any(greet in user_input.lower() for greet in self.greetings) else None
+    
+    def farewell(self, user_input):
+        return random.choice(self.farewells) if any(farewell in user_input.lower() for farewell in self.farewells) else None
+
+    def get_response(self, user_input):
+        for key, responses in self.responses.items():
+            if key in user_input.lower():
+                return random.choice(responses)
+        return self.responses["default"][0]
+    
+    def start_conversation(self):
+        print("Chatbot: Hi! How can I help you today?")
+        while True:
+            user_input = input("You: ").lower()
+
+            # Check for farewell keywords
+            farewell_message = self.farewell(user_input)
+            if farewell_message:
+                print(f"Chatbot: {farewell_message}")
+                break
+
+            # Check for greeting keywords
+            greeting_message = self.greet(user_input)
+            if greeting_message:
+                print(f"Chatbot: {greeting_message}")
+                continue
+
+            # Get a response to the user input
+            response = self.get_response(user_input)
+            print(f"Chatbot: {response}")
+
+# Initialize and start the chatbot
+if __name__ == "__main__":  # Fixed the typo here
+    chatbot = Chatbot()
+    chatbot.start_conversation()
